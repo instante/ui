@@ -2,7 +2,7 @@
 	"name": "instante/ui",
 	"type": "library",
 	"description": "UI extensions for Nette",
-	"keywords": ["nette", "forms", "bootstrap", "bootstrap3"],
+	"keywords": ["nette", "instante"],
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"require": {
 		"nette/nette": "~2.2"
