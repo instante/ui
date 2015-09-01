@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Instante\\Application\\UI\\": "src/"
+            "Instante\\Application\\UI\\": "src/",
+            "Instante\\Forms\\": "src/"
         }
     }
 }
