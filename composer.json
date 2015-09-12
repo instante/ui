@@ -17,7 +17,8 @@
     },
     "require-dev": {
         "nette/tester": "@dev",
-        "jakub-onderka/php-parallel-lint": "~0.6"
+        "jakub-onderka/php-parallel-lint": "~0.6",
+        "latte/latte": "~2.2"
     },
     "autoload": {
         "psr-0": {
