@@ -21,9 +21,8 @@
         "latte/latte": "~2.2"
     },
     "autoload": {
-        "psr-0": {
-            "Instante\\Application\\UI\\": "src/",
-            "Instante\\Forms\\": "src/"
+        "psr-4": {
+            "Instante\\": "src/",
         }
     }
 }
