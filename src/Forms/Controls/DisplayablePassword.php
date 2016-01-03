@@ -22,6 +22,7 @@ class DisplayablePassword extends TextInput
         parent::__construct($label, $maxLength);
         $this->setType('password');
         $this->control->addClass('form-control');
+        $this->setOption('noFormControl', TRUE);
         $this->fullControl = Html::el('span')
             ->addClass('input-group')
             ->add('<span class="input-group-btn"><span class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></span></span>')
