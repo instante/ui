@@ -16,28 +16,42 @@ use Nette\Utils\Strings;
  * Auto-assigns member variables to control template annotated with \@template annotation.
  *
  * @author Richard Ejem <richard@ejem.cz>
- * @method void render()
+ * @method void render($args = [])
  */
-class Control extends NControl {
+class Control extends NControl
+{
     use WireTemplateVariables;
-    public function __call($name, $args) {
+
+    const DEFAULT_VIEW = 'default';
+    const VIEW_ARGUMENT = 'view';
+
+    public function __call($name, $args)
+    {
         if (Strings::startsWith($name, 'render')) {
-            if ($this->getReflection()->hasMethod($method='before'.ucfirst($name))) {
-                call_user_func_array([$this, $method], $args);
-            }
-            $view = lcfirst(substr($name, 6 /* strlen('render')*/));
-            $this->finishRendering($view);
-        }
-        else {
+            $this->doRenderView($this->getViewByRenderMethod($name), $args);
+        } else {
             return parent::__call($name, $args);
         }
     }
 
-    protected function finishRendering($view) {
+    protected function doRenderView($view, $args)
+    {
+        $method = 'beforeRender' . ucfirst($view);
+        if ($this->getReflection()->hasMethod($method)) {
+            call_user_func_array([$this, $method], $args);
+        }
+        if ($view === static::DEFAULT_VIEW && $this->getReflection()->hasMethod('beforeRender')) {
+            call_user_func_array([$this, 'beforeRender'], $args);
+        }
+        $this->finishRendering($view);
+    }
+
+    protected function finishRendering($view)
+    {
         $this->wireVars();
         $controlClassName = $this->getReflection()->getShortName();
         $dir = dirname($this->getReflection()->getFileName());
-        if ($view === '') $view = 'default';
+
         $files = [
             "$dir/$controlClassName.$view.latte",
             "$dir/$controlClassName/$view.latte",
@@ -50,7 +64,28 @@ class Control extends NControl {
                 return;
             }
         }
-        throw new FileNotFoundException(
-            "Missing template file for control $controlClassName, searched in: ".implode(',', $files));
+        throw new FileNotFoundException(sprintf(
+            "Missing template file for control %s, searched in: %s",
+            $controlClassName,
+            implode(',', $files)
+        ));
+    }
+
+    protected function getViewByRenderMethod($name)
+    {
+        $view = lcfirst(substr($name, 6 /* strlen('render')*/));
+        if ($view === '') {
+            $view = $this->getViewWhenNotSpecified();
+        }
+        return $view;
+    }
+
+    protected function getViewWhenNotSpecified()
+    {
+        if (array_key_exists(static::VIEW_ARGUMENT, $this->params)) {
+            return $this->params[static::VIEW_ARGUMENT];
+        } else {
+            return static::DEFAULT_VIEW;
+        }
     }
 }
