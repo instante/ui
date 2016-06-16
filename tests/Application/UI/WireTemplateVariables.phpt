@@ -46,7 +46,7 @@ class WireTemplateVariablesTest extends TestCase
 }
 
 
-run(new WireTemplateVariablesTest());
+(new WireTemplateVariablesTest())->run();
 
 
 

@@ -74,4 +74,4 @@ class FooControl extends Control
 
 require_once __DIR__ . '/mocks.php';
 
-run(new ControlTest);
+(new ControlTest)->run();

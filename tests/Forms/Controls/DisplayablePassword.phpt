@@ -35,4 +35,4 @@ class DisplayablePasswordTest extends TestCase
     }
 }
 
-run(new DisplayablePasswordTest);
+(new DisplayablePasswordTest)->run();

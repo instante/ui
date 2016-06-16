@@ -34,4 +34,4 @@ class FormControlHtmlDecoratorTest extends TestCase
     }
 }
 
-run(new FormControlHtmlDecoratorTest);
+(new FormControlHtmlDecoratorTest)->run();
