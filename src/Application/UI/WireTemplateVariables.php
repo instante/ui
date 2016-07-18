@@ -4,6 +4,8 @@
 
 namespace Instante\Application\UI;
 
+use Nette\Reflection\ClassType;
+
 /**
  * Description of WireTemplateVariables
  *
@@ -13,7 +15,7 @@ trait WireTemplateVariables
 {
     private function wireVars()
     {
-        foreach ($this->getReflection()->getProperties() as $property) {
+        foreach ((new ClassType($this))->getProperties() as $property) {
             if ($property->hasAnnotation('template')) {
                 $property->setAccessible(TRUE);
                 $this->template->{$property->name} = $property->getValue($this);
