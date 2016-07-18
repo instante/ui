@@ -23,9 +23,10 @@ class DisplayablePassword extends TextInput
         $this->setType('password');
         $this->control->addClass('form-control');
         $this->setOption('noFormControl', TRUE);
+        $addMethod = (new \ReflectionClass(Html::class))->hasMethod('addHtml') ? 'addHtml' : 'add';
         $this->fullControl = Html::el('span')
             ->addClass('input-group')
-            ->add('<span class="input-group-btn"><span class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></span></span>')
+            ->$addMethod('<span class="input-group-btn"><span class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></span></span>')
             ->addAttributes(['data-instante-displayable-password' => TRUE]);
     }
 
